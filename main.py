@@ -7,12 +7,7 @@ from sms_sender import send_daily_picks
 
 
 def main():
-    """
-    Main function:
-    1. Get today's top 5 hit predictions
-    2. Format message
-    3. Send via SMS (only if picks are available)
-    """
+  
     print("Starting MLB Hit Predictor...")
     
     # Create predictor
@@ -25,7 +20,7 @@ def main():
     # Format message
     message = predictor.format_picks_message(picks)
     
-    # Only send if we have a valid message
+    # Only send a valid message
     if message is None or not message:
         print("No lineups available yet - skipping SMS")
         print("This is normal - lineups are usually posted 1-2 hours before first pitch")
