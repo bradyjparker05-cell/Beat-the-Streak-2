@@ -2,25 +2,8 @@ name: Daily MLB Hit Picks
 
 on:
   schedule:
-    # Explicit times - GitHub prefers this over */30 syntax
-    # UTC times (EDT = UTC-4, so 13:00 UTC = 9:00 AM EDT)
-    - cron: '0 13 * 4-10 1-6'   # 9:00 AM EDT
-    - cron: '30 13 * 4-10 1-6'  # 9:30 AM EDT
-    - cron: '0 14 * 4-10 1-6'   # 10:00 AM EDT
-    - cron: '30 14 * 4-10 1-6'  # 10:30 AM EDT
-    - cron: '0 15 * 4-10 1-6'   # 11:00 AM EDT
-    - cron: '30 15 * 4-10 1-6'  # 11:30 AM EDT
-    - cron: '0 16 * 4-10 1-6'   # 12:00 PM EDT
-    - cron: '30 16 * 4-10 1-6'  # 12:30 PM EDT
-    - cron: '0 17 * 4-10 1-6'   # 1:00 PM EDT
-    - cron: '30 17 * 4-10 1-6'  # 1:30 PM EDT
-    - cron: '0 18 * 4-10 1-6'   # 2:00 PM EDT
-    - cron: '30 18 * 4-10 1-6'  # 2:30 PM EDT
-    - cron: '0 19 * 4-10 1-6'   # 3:00 PM EDT
-    - cron: '30 19 * 4-10 1-6'  # 3:30 PM EDT
-    - cron: '0 20 * 4-10 1-6'   # 4:00 PM EDT
-    - cron: '30 20 * 4-10 1-6'  # 4:30 PM EDT
-    - cron: '0 21 * 4-10 1-6'   # 5:00 PM EDT
+    # TEST - runs every 5 minutes to see if scheduling works AT ALL
+    - cron: '*/5 * * * *'  # Every 5 minutes (temporary for testing)
   
   workflow_dispatch:
 
