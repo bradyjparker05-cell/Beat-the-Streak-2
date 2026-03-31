@@ -16,7 +16,7 @@ class MLBHitPredictor:
         self.cache = {}
     
     def get_todays_games(self) -> List[Dict]:
-        """Fetch today's MLB schedule"""
+        """Fetch today's schedule"""
         today = datetime.now().strftime('%Y-%m-%d')
         url = f"{self.base_url}/schedule?sportId=1&date={today}&hydrate=probablePitcher,team"
         
@@ -38,7 +38,7 @@ class MLBHitPredictor:
     def get_player_season_stats(self, player_id: int) -> Dict:
         """
         Get player's season batting stats
-        Uses current season, but falls back to last season early in the year
+    
         """
         cache_key = f"stats_{player_id}"
         if cache_key in self.cache:
