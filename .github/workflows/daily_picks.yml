@@ -1,10 +1,8 @@
 name: Daily MLB Hit Picks
 
 on:
-  schedule:
-    # TEST - runs every 5 minutes to see if scheduling works AT ALL
-    - cron: '*/5 * * * *'  # Every 5 minutes (temporary for testing)
-  
+  # Only manual triggers and external API calls (cron-job.org)
+  # GitHub's scheduler is disabled to prevent double-firing
   workflow_dispatch:
 
 jobs:
