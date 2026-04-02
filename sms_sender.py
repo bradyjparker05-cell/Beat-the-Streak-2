@@ -7,6 +7,7 @@ import smtplib
 from email.mime.text import MIMEText
 from email.mime.multipart import MIMEMultipart
 import os
+import time
 
 
 class SMSSender:
@@ -36,28 +37,45 @@ class SMSSender:
         Returns:
             True if sent successfully, False otherwise
         """
-        try:
-            # Create message
-            msg = MIMEMultipart()
-            msg['From'] = self.gmail_address
-            msg['To'] = self.sms_gateway
-            msg['Subject'] = ''  # No subject for SMS
-            
-            # Add message body
-            msg.attach(MIMEText(message, 'plain'))
-            
-            # Connect to Gmail SMTP server
-            with smtplib.SMTP('smtp.gmail.com', 587) as server:
-                server.starttls()  # Secure connection
-                server.login(self.gmail_address, self.gmail_app_password)
-                server.send_message(msg)
-            
-            print(f"SMS sent successfully to {self.phone_number}")
-            return True
-            
-        except Exception as e:
-            print(f"Error sending SMS: {e}")
-            return False
+        max_retries = 3
+        retry_delay = 30  # seconds between retries
+        
+        for attempt in range(max_retries):
+            try:
+                # Create message
+                msg = MIMEMultipart()
+                msg['From'] = self.gmail_address
+                msg['To'] = self.sms_gateway
+                msg['Subject'] = ''  # No subject for SMS
+                
+                # Add message body
+                msg.attach(MIMEText(message, 'plain'))
+                
+                # Connect to Gmail SMTP server
+                with smtplib.SMTP('smtp.gmail.com', 587) as server:
+                    server.starttls()  # Secure connection
+                    server.login(self.gmail_address, self.gmail_app_password)
+                    server.send_message(msg)
+                
+                print(f"SMS sent successfully to {self.phone_number}")
+                return True
+                
+            except smtplib.SMTPDataError as e:
+                # Check if it's T-Mobile's temporary error (452)
+                if "452" in str(e) and attempt < max_retries - 1:
+                    print(f"T-Mobile gateway busy (452 error), retrying in {retry_delay}s... (attempt {attempt + 1}/{max_retries})")
+                    time.sleep(retry_delay)
+                    continue
+                else:
+                    print(f"Error sending SMS: {e}")
+                    return False
+                    
+            except Exception as e:
+                print(f"Error sending SMS: {e}")
+                return False
+        
+        print("Failed to send SMS after all retries")
+        return False
 
 
 def send_daily_picks(message: str):
